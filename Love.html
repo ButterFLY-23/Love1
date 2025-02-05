@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валентинка</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ff6f61, #ff9a9e);
+            font-family: 'Georgia', serif;
+            text-align: center;
+            color: #4a4a4a;
+            overflow: hidden;
+        }
+        @keyframes fallingPetals {
+            0% { transform: translateY(-150%) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .petal {
+            position: absolute;
+            font-size: 20px;
+            color: #ff6f61;
+            animation: fallingPetals 6s linear infinite;
+        }
+        .petal:nth-child(odd) {
+            animation-duration: 7s;
+        }
+        .petal:nth-child(even) {
+            animation-duration: 5s;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        .heart {
+            width: 60px;
+            height: 60px;
+            background-color: #ff6f61;
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 30px auto;
+            animation: beat 1s infinite;
+        }
+        .heart:before, .heart:after {
+            content: "";
+            width: 60px;
+            height: 60px;
+            background-color: #ff6f61;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart:before {
+            top: -30px;
+            left: 0;
+        }
+        .heart:after {
+            left: 30px;
+            top: 0;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.2) rotate(-45deg); }
+        }
+        #loveMessage {
+            margin-top: -10px;
+        }
+        #loveText {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="background"></div>
+    <div class="container" id="question">
+        <h1>Любишь меня? ❤️</h1>
+        <div class="buttons">
+            <button onclick="showLove()">Да</button>
+            <button onclick="exitSite()">Нет</button>
+        </div>
+    </div>
+    
+    <div class="container" id="love" style="display: none;" onclick="changeText()">
+        <h1 id="loveMessage">Я тоже тебя люблю! 💖</h1>
+        <p id="loveText">Ты самое лучшее, что есть в моей жизни! Спасибо, что ты есть! 💕</p>
+        <div class="heart"></div>
+    </div>
+    
+    <script>
+        let messages = [
+            "Ты приносишь в мою жизнь свет и радость! 💖",
+            "Я не представляю свои дни без тебя! 💕",
+            "Ты — мое вдохновение, моя поддержка и счастье! 💓",
+            "Люблю тебя бесконечно! ❤️"
+        ];
+        let index = 0;
+
+        function createPetals() {
+            const background = document.getElementById('background');
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.textContent = '🌸';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = '0s';
+                petal.style.fontSize = Math.random() * 15 + 20 + 'px';
+                background.appendChild(petal);
+
+                // Remove petal after animation ends
+                petal.addEventListener('animationend', () => {
+                    petal.remove();
+                });
+            }, 150); // Higher frequency of petal generation
+        }
+
+        function showLove() {
+            document.getElementById("question").style.display = "none";
+            document.getElementById("love").style.display = "block";
+        }
+        
+        function exitSite() {
+            window.close();
+        }
+        
+        function changeText() {
+            if (index < messages.length) {
+                document.getElementById("loveText").textContent = messages[index];
+                index++;
+            } else {
+                index = 0;
+                document.getElementById("loveText").textContent = messages[index];
+            }
+        }
+
+        createPetals();
+    </script>
+</body>
+</html>
